@@ -1,4 +1,7 @@
-# Ignore 
+# Ignore
+*.cbp
+*.depend
+*.layout
 *~
 *#
 a.out
