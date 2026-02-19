@@ -1,0 +1,6 @@
+HRODNA;Neman;3
+MINSK;Willing;5
+GOMEL;Turist;4
+HRODNA;Pobeda;5
+MOGILEV;Budapest;4
+MINSK;Pobeda;5

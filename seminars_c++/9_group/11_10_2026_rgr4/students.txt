@@ -1,0 +1,3 @@
+Ivan;213;Math:4,Physics:3
+Igor;212;Math:5,CompScience:7
+Vovchik;210;Chemistry:10,Physics:3
