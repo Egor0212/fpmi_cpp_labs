@@ -12,6 +12,14 @@ void Check(const Vector& actual, const std::vector<int>& expected) {
     }
 }
 
+
+TEST_CASE("Fool", "[vector]") {
+    INFO("Don't use std::vector, cheater!")
+    STATIC_REQUIRE_FALSE(std::is_same_v<std::vector<int>, Vector>);
+    STATIC_REQUIRE_FALSE(std::is_base_of_v<std::vector<int>, Vector>);
+}
+
+
 TEST_CASE("Vector has constructors", "[vector]") {
     {
         INFO("default ctor");

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <iterator>
+#include <cstdint>
 #include <iostream>
+#include <iterator>
 
 class ForwardList {
 
@@ -54,12 +55,13 @@ public:
         pointer operator->() {
             return &position_->value_;
         }
-        
+
     private:
         Node* position_;
     };
 
     // methods for "ranged-based for loop"
+    //
     // 1) non-const version
     ForwardListIterator begin() {
         // your code goes here
@@ -102,9 +104,9 @@ public:
     // delete first element of the list
     void PopFront();
 
-    // remove every occurence of an element in the list
+    // remove every occurrence of an element in the list
     // whose value equals to param `value`,
-    // the remaining elements must remain in the same order
+    // the remaining elements must stay in the same order
     void Remove(int32_t value);
 
     // erases all the elements
