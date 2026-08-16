@@ -71,6 +71,18 @@ TEST_CASE("Copy correctness", "[oop_complex]") {
 }
 
 
+TEST_CASE("Comparison operators", "[complex]"){
+    Complex x(1, 1);
+    Complex y(1, 1);
+    Complex z(2, 2);
+
+    REQUIRE(x == y);
+    REQUIRE(!(x == z));
+    REQUIRE(y != z);
+    REQUIRE(x != z);
+}
+
+
 TEST_CASE("Unary plus/minus", "[complex]") {
     Complex z(3, 4);
     Check(+z, std::complex<double>(3, 4));
