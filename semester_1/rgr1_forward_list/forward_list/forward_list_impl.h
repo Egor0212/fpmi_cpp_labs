@@ -84,22 +84,22 @@ public:
     ForwardList();
 
     // copy constructor
-    ForwardList(const ForwardList& rhs);
+    ForwardList(const ForwardList&);
 
     // Constructs a ForwardList with `count` copies of elements with value `value`.
-    ForwardList(size_t count, int32_t value);
+    ForwardList(size_t /*count*/, int32_t /*value*/);
 
     // Constructs a ForwardList with std::initializer_list<int32_t>
-    ForwardList(std::initializer_list<int32_t> init);
+    ForwardList(std::initializer_list<int32_t>);
 
     // operator= overloading
-    ForwardList& operator=(const ForwardList& rhs);
+    ForwardList& operator=(const ForwardList&);
 
     // destructor
     ~ForwardList();
 
     // insert new element on the top of the list
-    void PushFront(int32_t value);
+    void PushFront(int32_t /*value*/);
 
     // delete first element of the list
     void PopFront();
@@ -107,7 +107,7 @@ public:
     // remove every occurrence of an element in the list
     // whose value equals to param `value`,
     // the remaining elements must stay in the same order
-    void Remove(int32_t value);
+    void Remove(int32_t /*value*/);
 
     // erases all the elements
     void Clear();
@@ -115,10 +115,10 @@ public:
     // find list's element by the `value`
     // returns true, if element exists
     // otherwise, returns false
-    bool FindByValue(int32_t value);
+    bool FindByValue(int32_t /*value*/);
 
     // print list's elements to stream separated by space
-    void Print(std::ostream& out);
+    void Print(std::ostream&);
 
     // get first element of the list
     int32_t Front() const;
