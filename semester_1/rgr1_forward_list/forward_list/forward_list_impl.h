@@ -15,7 +15,6 @@ private:
         }
     };
 
-public:
     class ForwardListIterator {
     public:
         using iterator_category = std::forward_iterator_tag;
@@ -60,25 +59,35 @@ public:
         Node* position_;
     };
 
-    // methods for "ranged-based for loop"
-    //
-    // 1) non-const version
-    ForwardListIterator begin() {
-        // your code goes here
-    }
-    ForwardListIterator end() {
-        // your code goes here
-    }
-
-    // 2) const version
-    // TODO: think about return type
+public:
+    // aliases
+    // TODO: think about ConstIterator
     // (is it exactly ForwardListIterator?)
-    ForwardListIterator begin() const {
-        // your code goes here
-    }
-    ForwardListIterator end() const {
-        // your code goes here
-    }
+    using Iterator = ForwardListIterator;
+    using ConstIterator = ForwardListIterator;
+
+    // iterator methods
+
+    // 1) begin, end: non-const version
+    Iterator begin();
+    Iterator end();
+
+    // 2) begin, end: const version
+    ConstIterator begin() const;
+    ConstIterator end() const;
+
+    // 3) cbegin, cend
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
+
+    // 4) before_begin, cbefore_begin
+    // see https://cppreference.com/cpp/container/forward_list/before_begin
+    // for more details
+    Iterator before_begin();
+    ConstIterator before_begin() const;
+    ConstIterator cbefore_begin() const;
+
+    // other methods
 
     // default constructor
     ForwardList();
@@ -125,6 +134,18 @@ public:
 
     // get size of the list
     size_t Size() const;
+
+    // see
+    // https://cppreference.com/cpp/container/forward_list/splice_after
+    // for more details
+    //
+    // overload (1)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/);
+    // overload (3)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/, ConstIterator /*it*/);
+    // overload (5)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/, ConstIterator /*first*/,
+                     ConstIterator /*last*/);
 
 private:
     // your code goes here
