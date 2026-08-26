@@ -10,13 +10,13 @@
 #include <type_traits>
 
 void Check(const ForwardList& actual, const std::forward_list<int32_t>& expected) {
-    ForwardList::ForwardListIterator actual_it = actual.begin();
-    std::forward_list<int32_t>::const_iterator expected_it = expected.begin();
-    for (/*nothing*/; actual_it != actual.end() && expected_it != expected.cend();
+    ForwardList::ConstIterator actual_it = actual.cbegin();
+    std::forward_list<int32_t>::const_iterator expected_it = expected.cbegin();
+    for (/*init part*/; actual_it != actual.cend() && expected_it != expected.cend();
          ++actual_it, ++expected_it) {
         REQUIRE(*actual_it == *expected_it);
     }
-    REQUIRE((actual_it == actual.end() && expected_it == expected.cend()));
+    REQUIRE((actual_it == actual.cend() && expected_it == expected.cend()));
 }
 
 TEST_CASE("Fool", "[forward_list]") {
@@ -30,19 +30,19 @@ TEST_CASE("Fool", "[forward_list]") {
 TEST_CASE("ForwardList has ctors", "[forward_list]") {
     STATIC_REQUIRE(std::is_default_constructible_v<ForwardList>);
 
-    INFO("default ctor") {
+    SECTION("default ctor") {
         ForwardList a;
         REQUIRE(a.Size() == 0u);
         Check(a, std::forward_list<int32_t>());
     }
 
-    INFO("user-defined ctor") {
+    SECTION("user-defined ctor") {
         ForwardList a(10, 1);
         REQUIRE(a.Size() == 10u);
         Check(a, std::forward_list<int32_t>(10, 1));
     }
 
-    INFO("initializer-list ctor") {
+    SECTION("initializer-list ctor") {
         ForwardList a{1, 2, 3, 4, 5};
         REQUIRE(a.Size() == 5u);
         Check(a, std::forward_list<int32_t>{1, 2, 3, 4, 5});
@@ -77,7 +77,7 @@ TEST_CASE("Simple push/pop", "[forward_list]") {
 
 TEST_CASE("Advanced push/pop", "[forward_list]") {
 
-    INFO("push then pop") {
+    SECTION("push then pop") {
         ForwardList actual;
         std::forward_list<int32_t> expected;
         for (int32_t i = 0; i < 100000; ++i) {
@@ -95,7 +95,7 @@ TEST_CASE("Advanced push/pop", "[forward_list]") {
         Check(actual, expected);
     }
 
-    INFO("push and pop") {
+    SECTION("push and pop") {
         ForwardList actual;
         std::forward_list<int32_t> expected;
         for (int32_t i = 0; i < 100000; ++i) {
@@ -164,20 +164,20 @@ TEST_CASE("Iterator basics", "[forward_list]") {
     ForwardList a{1, 2, 3, 4, 5, 6};
     REQUIRE(std::distance(a.begin(), a.end()) == 6);
 
-    ForwardList::ForwardListIterator it = a.begin();
+    ForwardList::Iterator it = a.begin();
     REQUIRE(*it == 1);
     REQUIRE(*(it.operator->()) == 1);
     ++it;
     REQUIRE(*it == 2);
     REQUIRE(*(it.operator->()) == 2);
 
-    ForwardList::ForwardListIterator it2 = a.begin();
+    ForwardList::Iterator it2 = a.begin();
     it2++;
     REQUIRE(*it2 == 2);
     REQUIRE(*(it.operator->()) == 2);
     REQUIRE(it == it2);
 
-    ForwardList::ForwardListIterator it3 = a.begin();
+    ForwardList::Iterator it3 = a.begin();
     REQUIRE(it != it3);
     REQUIRE(it2 != it3);
 }
@@ -189,7 +189,7 @@ TEST_CASE("Modifications with iterators", "[forward_list]") {
     *((++a.begin()).operator->()) = 4;
 
     Check(a, std::forward_list<int32_t>{3, 4, 5});
-    ForwardList::ForwardListIterator it = a.begin();
+    ForwardList::Iterator it = a.begin();
     ++it;
     REQUIRE(*it == 4);
 }
@@ -198,8 +198,8 @@ TEST_CASE("Iterator loop", "[forward_list]") {
 
     ForwardList a{1, 2, 3, 4, 5, 6};
 
-    INFO("usage in std::copy") {
-        ForwardList::ForwardListIterator it = a.begin();
+    SECTION("usage in std::copy") {
+        ForwardList::Iterator it = a.begin();
         ++it;
 
         std::stringstream sstream;
@@ -207,7 +207,7 @@ TEST_CASE("Iterator loop", "[forward_list]") {
         REQUIRE(sstream.str() == "23456");
     }
 
-    INFO("usage in for-loop") {
+    SECTION("usage in for-loop") {
         std::stringstream sstream;
         for (auto iter = a.begin(); iter != a.end(); ++iter) {
             sstream << *iter;
@@ -215,7 +215,7 @@ TEST_CASE("Iterator loop", "[forward_list]") {
         REQUIRE(sstream.str() == "123456");
     }
 
-    INFO("usage in for-each") {
+    SECTION("usage in for-each") {
         std::stringstream sstream;
         for (int32_t item : a) {
             sstream << item;
@@ -263,24 +263,108 @@ TEST_CASE("Remove(repeated elements)", "[forward_list]") {
 
 TEST_CASE("Output", "[forward_list]") {
 
-    INFO("empty list output") {
+    SECTION("empty list output") {
         ForwardList a;
         std::stringstream sstream;
         a.Print(sstream);
         REQUIRE(sstream.str().empty());
     }
 
-    INFO("single-element list oputput") {
+    SECTION("single-element list oputput") {
         ForwardList a{6};
         std::stringstream sstream;
         a.Print(sstream);
         REQUIRE(sstream.str() == "6");
     }
 
-    INFO("many elements list output") {
+    SECTION("many elements list output") {
         ForwardList a{1, 2, 3, 4, 5, 6};
         std::stringstream sstream;
         a.Print(sstream);
         REQUIRE(sstream.str() == "1 2 3 4 5 6");
     }
+}
+
+TEST_CASE("Splice(all overloads)", "[forward_list]") {
+    SECTION("overload (1)") {
+        ForwardList first{1, 2, 3, 4, 5};
+        ForwardList second{10, 11, 12};
+
+        first.SpliceAfter(first.cbegin(), second);
+
+        Check(first, std::forward_list<int32_t>{1, 10, 11, 12, 2, 3, 4, 5});
+        REQUIRE(first.Size() == 8u);
+
+        Check(second, std::forward_list<int32_t>{});
+        REQUIRE(second.Size() == 0u);
+    }
+
+    SECTION("overload (3)") {
+        ForwardList first{1, 2, 3, 4, 5};
+        auto it = first.cbegin();
+        ForwardList second{10, 11, 12};
+
+        // no effect
+        first.SpliceAfter(first.cbegin(), first, it);
+        ++it;
+        first.SpliceAfter(it, first, first.cbegin());
+
+        // ok
+        first.SpliceAfter(first.cbegin(), second, second.cbegin());
+
+        Check(first, std::forward_list<int32_t>{1, 11, 2, 3, 4, 5});
+        REQUIRE(first.Size() == 6u);
+
+        Check(second, std::forward_list<int32_t>{10, 12});
+        REQUIRE(second.Size() == 2u);
+    }
+
+    SECTION("overload (5)") {
+        ForwardList first{1, 2, 3, 4, 5};
+        ForwardList second{10, 11, 12};
+
+        first.SpliceAfter(first.cbegin(), second, second.cbegin(), second.cend());
+
+        Check(first, std::forward_list<int32_t>{1, 11, 12, 2, 3, 4, 5});
+        REQUIRE(first.Size() == 7u);
+
+        Check(second, std::forward_list<int32_t>{10});
+        REQUIRE(second.Size() == 1u);
+    }
+}
+
+TEST_CASE("Splice(no invalidation)", "[forward_list]") {
+    ForwardList first{1, 2, 3};
+    ForwardList second{10, 20, 30};
+
+    auto it = first.cbegin();
+    first.SpliceAfter(first.cbefore_begin(), second);
+
+    Check(first, std::forward_list<int32_t>{10, 20, 30, 1, 2, 3});
+    REQUIRE(first.Size() == 6u);
+    Check(second, std::forward_list<int32_t>{});
+    REQUIRE(second.Size() == 0u);
+
+    // must point to 1
+    REQUIRE(*it == 1);
+
+    second.SpliceAfter(second.cbefore_begin(), first, first.cbegin(), it);
+
+    Check(first, std::forward_list<int32_t>{10, 1, 2, 3});
+    REQUIRE(first.Size() == 4u);
+    Check(second, std::forward_list<int32_t>{20, 30});
+    REQUIRE(second.Size() == 2u);
+
+    // still must point to 1
+    REQUIRE(*it == 1);
+
+    first.SpliceAfter(first.cbefore_begin(), second, second.cbegin());
+
+    Check(first, std::forward_list<int32_t>{30, 10, 1, 2, 3});
+    REQUIRE(first.Size() == 5u);
+    Check(second, std::forward_list<int32_t>{20});
+    REQUIRE(second.Size() == 1u);
+
+    // still must point to 1
+    REQUIRE(*it == 1);
 }
