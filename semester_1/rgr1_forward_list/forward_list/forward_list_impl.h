@@ -1,7 +1,8 @@
 #pragma once
 
-#include <iterator>
+#include <cstdint>
 #include <iostream>
+#include <iterator>
 
 class ForwardList {
 
@@ -14,7 +15,6 @@ private:
         }
     };
 
-public:
     class ForwardListIterator {
     public:
         using iterator_category = std::forward_iterator_tag;
@@ -54,58 +54,69 @@ public:
         pointer operator->() {
             return &position_->value_;
         }
-        
+
     private:
         Node* position_;
     };
 
-    // methods for "ranged-based for loop"
-    // 1) non-const version
-    ForwardListIterator begin() {
-        // your code goes here
-    }
-    ForwardListIterator end() {
-        // your code goes here
-    }
-
-    // 2) const version
-    // TODO: think about return type
+public:
+    // aliases
+    // TODO: think about ConstIterator
     // (is it exactly ForwardListIterator?)
-    ForwardListIterator begin() const {
-        // your code goes here
-    }
-    ForwardListIterator end() const {
-        // your code goes here
-    }
+    using Iterator = ForwardListIterator;
+    using ConstIterator = ForwardListIterator;
+
+    // iterator methods
+
+    // 1) begin, end: non-const version
+    Iterator begin();
+    Iterator end();
+
+    // 2) begin, end: const version
+    ConstIterator begin() const;
+    ConstIterator end() const;
+
+    // 3) cbegin, cend
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
+
+    // 4) before_begin, cbefore_begin
+    // see https://cppreference.com/cpp/container/forward_list/before_begin
+    // for more details
+    Iterator before_begin();
+    ConstIterator before_begin() const;
+    ConstIterator cbefore_begin() const;
+
+    // other methods
 
     // default constructor
     ForwardList();
 
     // copy constructor
-    ForwardList(const ForwardList& rhs);
+    ForwardList(const ForwardList&);
 
     // Constructs a ForwardList with `count` copies of elements with value `value`.
-    ForwardList(size_t count, int32_t value);
+    ForwardList(size_t /*count*/, int32_t /*value*/);
 
     // Constructs a ForwardList with std::initializer_list<int32_t>
-    ForwardList(std::initializer_list<int32_t> init);
+    ForwardList(std::initializer_list<int32_t>);
 
     // operator= overloading
-    ForwardList& operator=(const ForwardList& rhs);
+    ForwardList& operator=(const ForwardList&);
 
     // destructor
     ~ForwardList();
 
     // insert new element on the top of the list
-    void PushFront(int32_t value);
+    void PushFront(int32_t /*value*/);
 
     // delete first element of the list
     void PopFront();
 
-    // remove every occurence of an element in the list
+    // remove every occurrence of an element in the list
     // whose value equals to param `value`,
-    // the remaining elements must remain in the same order
-    void Remove(int32_t value);
+    // the remaining elements must stay in the same order
+    void Remove(int32_t /*value*/);
 
     // erases all the elements
     void Clear();
@@ -113,16 +124,28 @@ public:
     // find list's element by the `value`
     // returns true, if element exists
     // otherwise, returns false
-    bool FindByValue(int32_t value);
+    bool FindByValue(int32_t /*value*/);
 
     // print list's elements to stream separated by space
-    void Print(std::ostream& out);
+    void Print(std::ostream&);
 
     // get first element of the list
     int32_t Front() const;
 
     // get size of the list
     size_t Size() const;
+
+    // see
+    // https://cppreference.com/cpp/container/forward_list/splice_after
+    // for more details
+    //
+    // overload (1)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/);
+    // overload (3)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/, ConstIterator /*it*/);
+    // overload (5)
+    void SpliceAfter(ConstIterator /*pos*/, ForwardList& /*other*/, ConstIterator /*first*/,
+                     ConstIterator /*last*/);
 
 private:
     // your code goes here

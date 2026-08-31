@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(forward_list)
+project(lab7_oop)
 
 set(CMAKE_CXX_STANDARD             20)
 set(CMAKE_MODULE_PATH              "${CMAKE_SOURCE_DIR}/cmake")
@@ -14,4 +14,6 @@ find_package(Catch REQUIRED)
 include(cmake/TestSolution.cmake)
 include(cmake/BuildFlags.cmake)
 
-add_subdirectory(forward_list)
+add_subdirectory(multiplication)
+add_subdirectory(oop_complex)
+add_subdirectory(vector)
