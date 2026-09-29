@@ -5,7 +5,7 @@ const int MAX_LENGTH = 100'000;
 // type name [= target_value] --- variable
 // [return_type] func_name(parameter_list); [{ code ...}]
 
-void PrintArray(int*, size_t); // declaration
+void PrintArray(const int* const , size_t); // declaration
 
 int main() {
 
@@ -52,7 +52,7 @@ int main() {
 }
 
 
-void PrintArray(int* arr, size_t size) { // definition
+void PrintArray(const int* const arr, size_t size) { // definition
     // n = sizeof(arr) / sizeof(arr[0])
     std::cout << "\n Your array:\n";
     for (size_t i = 0; i < size; ++i) {
