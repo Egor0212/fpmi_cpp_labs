@@ -8,9 +8,9 @@ std::vector<std::string> SplitWords(const std::string& s,
                                     const std::string& delimeters) {
     
     std::vector<std::string> words;
-
-    size_t beg_index = 0;
-    size_t end_index = s.find_first_of(delimeters);
+    //using size_type = unsigned long
+    std::string::size_type beg_index = 0;
+    std::string::size_type end_index = s.find_first_of(delimeters);
     
     while (beg_index != std::string::npos) {
 
@@ -36,7 +36,6 @@ int main() {
     std::string str2(10, 'a');
     
     std::cout << str2;*/
-
     std::string str; // "C++ I love you"
     //std::cin >> str;
     std::getline(std::cin, str);
