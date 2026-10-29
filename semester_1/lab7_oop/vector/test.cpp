@@ -2,8 +2,9 @@
 
 #include "vector_impl.h"
 
-#include <vector>
 #include <sstream>
+#include <type_traits>
+#include <vector>
 
 void Check(const Vector& actual, const std::vector<int>& expected) {
     REQUIRE(actual.Size() == expected.size());

@@ -7,9 +7,16 @@
 #include <type_traits>
 
 
+void CheckDouble(double actual, double expected) {
+    REQUIRE_THAT( actual, 
+        Catch::Matchers::WithinRel(expected, 0.001)
+     || Catch::Matchers::WithinAbs(0, 1e-9) );
+}
+
 void Check(const Complex& actual, const std::complex<double>& expected) {
-    REQUIRE(std::fabs(actual.Real() - expected.real()) < 1e9);
-    REQUIRE(std::fabs(actual.Imag() - expected.imag()) < 1e9);
+    CheckDouble(actual.Real(), expected.real());
+    CheckDouble(actual.Imag(), expected.imag());
+    CheckDouble(actual.Abs(), std::abs(expected));
 }
 
 TEST_CASE("Complex has constructors", "[oop_complex]") {
@@ -39,16 +46,21 @@ TEST_CASE("Complex has constructors", "[oop_complex]") {
 
 TEST_CASE("Basic methods", "[oop_complex]") {
     Complex z(3, 4);
-    REQUIRE(z.Real() == 3);
-    REQUIRE(z.Imag() == 4);
-    REQUIRE(z.Abs() == 5);
+    CheckDouble(z.Real(), 3.0);
+    CheckDouble(z.Imag(), 4.0);
+    CheckDouble(z.Abs(), 5.0);
 
     z.Real(5);
     z.Imag(12);
 
-    REQUIRE(z.Real() == 5);
-    REQUIRE(z.Imag() == 12);
-    REQUIRE(z.Abs() == 13);
+    CheckDouble(z.Real(), 5.0);
+    CheckDouble(z.Imag(), 12.0);
+    CheckDouble(z.Abs(), 13.0);
+
+    Complex z1(1.22222, 1.33333);
+    CheckDouble(z1.Real(), 1.22222);
+    CheckDouble(z1.Imag(), 1.33333);
+    CheckDouble(z1.Abs(), 1.8087538852);
 }
 
 

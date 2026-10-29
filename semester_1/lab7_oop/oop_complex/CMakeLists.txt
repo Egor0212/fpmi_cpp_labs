@@ -1,1 +1,1 @@
-add_catch(test_complex oop_complex.cpp test.cpp)
+add_sources(test_complex oop_complex.cpp test.cpp)

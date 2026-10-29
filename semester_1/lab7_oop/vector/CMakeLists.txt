@@ -1,1 +1,1 @@
-add_catch(test_vector vector_impl.cpp test.cpp)
+add_sources(test_vector vector_impl.cpp test.cpp)

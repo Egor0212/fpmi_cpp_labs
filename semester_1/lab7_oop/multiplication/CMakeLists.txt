@@ -1,1 +1,1 @@
-add_catch(test_multiplication test.cpp)
+add_sources(test_multiplication test.cpp)

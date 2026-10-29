@@ -9,6 +9,7 @@
 #include <sstream>
 #include <type_traits>
 
+
 void Check(const ForwardList& actual, const std::forward_list<int32_t>& expected) {
     ForwardList::ConstIterator actual_it = actual.cbegin();
     std::forward_list<int32_t>::const_iterator expected_it = expected.cbegin();
