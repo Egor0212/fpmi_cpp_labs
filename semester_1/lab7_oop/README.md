@@ -66,7 +66,7 @@ make test_multiplication
 Обращаю внимание, что тестирование будет осуществляться с включенными санитайзерами, которые проверяют, корректно ли вы работаете с памятью, нет ли у вас неопределённого поведения в программе и т.п. Чтобы осуществить такую сборку, нужно выполнить следующие команды:
 ```bash
 # В директории 'lab7(class_vector)/'
-mkdir adan_build
+mkdir asan_build
 cd asan_build
 cmake -DCMAKE_BUILD_TYPE=ASAN ..
 make test_multiplication
