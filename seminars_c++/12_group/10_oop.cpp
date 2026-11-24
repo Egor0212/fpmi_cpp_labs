@@ -15,9 +15,9 @@ public:
     //}
     
     // uder-definded ctor
-    Point2D(int x_ = 0, int y_ = 0) { 
-        x = x_;
-        y = y_;
+    Point2D(int x = 0, int y = 0): x(x), y(y) { 
+        //x = x_;
+        //y = y_;
     }
 
     
