@@ -7,16 +7,16 @@ private:
     int32_t x;
     int32_t y;
 
-public:
+    public:
 
     Point2D() {
         x = 0;
         y = 0;
     }
 
-    Point2D(int32_t p_x, int32_t p_y) {
-        x = p_x;
-        y = p_y;
+    Point2D(int32_t x, int32_t y) : x(x), y(y) {
+        //x = p_x;
+        //y = p_y;
     }
 
     int32_t GetX() const {
@@ -79,9 +79,9 @@ int main() {
     Point2D p1(78, 78); // aggregate initialization
     PrintPoint2D(p);
     
-    Point2D sum = p + p1;
-    sum += p;
+    Point2D sum = p + p1; // sum = ::operator+(p, p1)
+    sum += p; // sum.operator+=(p)
     PrintPoint2D(sum);
-    std::cout << p;
+    std::cout << p; // std::cout.operator<<(cout, p)
 
 }
