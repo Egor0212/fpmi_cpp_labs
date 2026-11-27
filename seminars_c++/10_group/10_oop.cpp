@@ -13,9 +13,9 @@ public:
     //    y = 0;
     //}
 
-    Point2D(int32_t new_x = 0, int32_t new_y = 0) {
-        x = new_x;
-        y = new_y;
+    Point2D(int32_t x = 0, int32_t y = 0) : x(x), y(y) {
+        //x = new_x;
+        //y = new_y;
     }
 
     int32_t GetX() const {
